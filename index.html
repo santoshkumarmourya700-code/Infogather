@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InfoGather - System Intelligence</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        .data-list {
+            list-style: none;
+            width: 100%;
+        }
+
+        .data-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .data-list .label {
+            color: var(--text-secondary);
+        }
+
+        .data-list .value {
+            color: var(--text-primary);
+            text-align: right;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .check-icon {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        .check-pass {
+            background: var(--success);
+        }
+
+        .check-fail {
+            background: var(--error);
+        }
+
+        .dns-group {
+            margin-bottom: 1rem;
+        }
+
+        .dns-type {
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 0.8rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .screenshot-img {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .info-row {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 0.75rem;
+        }
+
+        .info-row .label {
+            color: var(--accent);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        .info-row .value {
+            word-break: break-all;
+        }
+
+        .grid {
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        }
+
+        @media (min-width: 1200px) {
+            .grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* Theme Toggle Button */
+        #theme-toggle {
+            background: none;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 0.5rem 1rem;
+            font-family: var(--font-mono);
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            margin-left: 1rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        #theme-toggle:hover {
+            background: var(--accent);
+            color: var(--bg-primary);
+            box-shadow: 0 0 10px var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-animation"></div>
+    <div class="container">
+        <header>
+            <a href="/" class="logo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="2" y1="12" x2="22" y2="12"></line>
+                    <path
+                        d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                    </path>
+                </svg>
+                InfoGather
+            </a>
+
+            <!-- Navigation & Socials -->
+            <nav style="display: flex; align-items: center; gap: 2rem;">
+                <div class="header-socials" style="display: flex; gap: 1rem;">
+                    <a href="https://github.com/santoshkumarmourya700-code" target="_blank" title="GitHub">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                            </path>
+                        </svg>
+                    </a>
+                    <a href="https://twitter.com/yourusername" target="_blank" title="Twitter">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z">
+                            </path>
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/santoshkumarmourya700-code/" target="_blank" title="LinkedIn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
+                            </path>
+                            <rect x="2" y="9" width="4" height="12"></rect>
+                            <circle cx="4" cy="4" r="2"></circle>
+                        </svg>
+                    </a>
+                </div>
+
+                <div style="display: flex; align-items: center;">
+                    <div id="headerStats"
+                        style="font-size: 0.9rem; color: var(--text-secondary); display: none; margin-right: 1rem;">
+                        <span id="passCount" style="color: var(--success);">0</span> successful | <span id="failCount"
+                            style="color: var(--error);">0</span> failed
+                    </div>
+                    <button id="theme-toggle">
+                        <span id="theme-icon">☀</span> <span id="theme-text">Light</span>
+                    </button>
+                </div>
+            </nav>
+        </header>
+
+        <section id="landing" class="hero">
+            <h2>Enter a URL to analyze its infrastructure, security, and content</h2>
+            <div class="search-container">
+                <div class="search-input-wrapper">
+                    <input type="text" id="urlInput" placeholder="e.g. https://google.com" autofocus>
+                </div>
+                <button id="analyzeBtn" class="analyze-btn">Analyze!</button>
+            </div>
+        </section>
+
+        <section id="results">
+            <div class="results-header">
+                <div class="progress-container">
+                    <div id="progressText" style="margin-bottom: 0.5rem; font-size: 0.9rem;">Running 0 / 0 jobs</div>
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill"></div>
+                    </div>
+                </div>
+                <div id="currentUrl" style="font-weight: 700; color: var(--accent); font-size: 1.5rem;">domain.com</div>
+            </div>
+
+            <div id="cardsGrid" class="grid"></div>
+
+            <div id="actionContainer" style="text-align: center; margin-top: 3rem; display: none;">
+                <button id="nextSearchBtn" class="analyze-btn">Next Search</button>
+            </div>
+        </section>
+
+        <footer style="display: flex; flex-direction: column; gap: 1rem; padding-bottom: 2rem;">
+            <div class="footer-socials"
+                style="display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 1rem;">
+                <a href="https://facebook.com" target="_blank">Facebook</a>
+                <a href="https://twitter.com" target="_blank">Twitter</a>
+                <a href="https://instagram.com" target="_blank">Instagram</a>
+                <a href="https://github.com/santoshkumarmourya700-code" target="_blank">GitHub</a>
+            </div>
+            <p>© 2024 InfoGather. All Rights Reserved.</p>
+            <p style="font-size: 0.8rem; opacity: 0.6;">Designed for specialized recon operations.</p>
+        </footer>
+    </div>
+
+
+
+    <script>
+        // Simple logger wrapper for development
+        const log = console.log;
+
+        const landing = document.getElementById('landing');
+        const results = document.getElementById('results');
+        const urlInput = document.getElementById('urlInput');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const cardsGrid = document.getElementById('cardsGrid');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const currentUrlDisplay = document.getElementById('currentUrl');
+        const headerStats = document.getElementById('headerStats');
+        const passCount = document.getElementById('passCount');
+        const failCount = document.getElementById('failCount');
+
+        const endpoints = [
+            { id: 'dns', name: 'DNS Records' },
+            { id: 'whois', name: 'Domain Whois' },
+            { id: 'ssl', name: 'SSL Certificate' },
+            { id: 'headers', name: 'Headers' },
+            { id: 'http-security', name: 'HTTP Security' },
+            { id: 'firewall', name: 'Firewall' },
+            { id: 'cookies', name: 'Cookies' },
+            { id: 'status', name: 'Server Status' },
+            { id: 'robots-txt', name: 'Crawl Rules' },
+            { id: 'security-txt', name: 'Security.txt' },
+            { id: 'sitemap', name: 'Pages' },
+            { id: 'social-tags', name: 'Social Tags' },
+            { id: 'dns-server', name: 'DNS Server' },
+            { id: 'dnssec', name: 'DNSSEC' },
+            { id: 'hsts', name: 'HSTS Check' },
+            { id: 'redirects', name: 'Redirects' },
+            { id: 'block-lists', name: 'Block Lists' },
+            { id: 'rank', name: 'Global Ranking' },
+            { id: 'tls', name: 'TLS Handshake' },
+            { id: 'txt-records', name: 'TXT Records' },
+            { id: 'mail-config', name: 'Email Configuration' },
+            { id: 'linked-pages', name: 'Linked Pages' },
+            { id: 'ports', name: 'Open Ports' },
+            { id: 'archives', name: 'Archive History' },
+            { id: 'threats', name: 'Threats' },
+            { id: 'screenshot', name: 'Screenshot' }
+        ];
+
+        let completedJobs = 0;
+        let successfulJobs = 0;
+        let failedJobs = 0;
+
+        function createCard(endpoint, index) {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.id = `card-${endpoint.id}`;
+            card.style.animationDelay = `${index * 0.1}s`;
+            card.innerHTML = `
+                <div class="card-header">
+                    <span class="card-title">${endpoint.name}</span>
+                    <div class="status-indicator status-loading"></div>
+                </div>
+                <div class="card-content">
+                    <div class="loading-text" style="color: var(--text-secondary); opacity: 0.5;">Awaiting results...</div>
+                </div>
+            `;
+            return card;
+        }
+
+        async function fetchEndpoint(endpoint, url) {
+            // Re-select element to ensure we have the live DOM node including those created in this session
+            const card = document.getElementById(`card-${endpoint.id}`);
+            if (!card) {
+                log(`ERROR: Card for ${endpoint.id} not found!`);
+                return;
+            }
+
+            const content = card.querySelector('.card-content');
+            const indicator = card.querySelector('.status-indicator');
+
+            try {
+                log(`Fetching ${endpoint.id}...`);
+                const response = await fetch(`/api/${endpoint.id}?url=${encodeURIComponent(url)}`);
+                log(`${endpoint.id} status: ${response.status}`);
+
+                const data = await response.json();
+
+                if (data.error) throw new Error(data.error);
+
+                indicator.className = 'status-indicator status-success';
+                successfulJobs++;
+                renderData(endpoint.id, content, data);
+            } catch (error) {
+                console.error(error);
+                indicator.className = 'status-indicator status-error';
+                failedJobs++;
+                content.innerHTML = `<div style="color: var(--error); font-size: 0.8rem;">${error.message || 'Request failed'}</div>`;
+            } finally {
+                completedJobs++;
+                updateProgress();
+                checkCompletion();
+            }
+        }
+
+        function updateProgress() {
+            const percent = (completedJobs / endpoints.length) * 100;
+            progressFill.style.width = `${percent}%`;
+            progressText.innerText = `Finished in ${completedJobs} / ${endpoints.length} jobs`;
+            passCount.innerText = successfulJobs;
+            failCount.innerText = failedJobs;
+        }
+
+        function renderData(id, container, data) {
+            if (data.skipped) {
+                container.innerHTML = `<div style="color: var(--text-secondary); font-style: italic;">${data.skipped}</div>`;
+                return;
+            }
+
+            switch (id) {
+                case 'screenshot':
+                    container.innerHTML = `<img src="data:image/png;base64,${data.image}" class="screenshot-img">`;
+                    break;
+                case 'dns':
+                    let dnsHtml = '';
+                    for (const [type, records] of Object.entries(data)) {
+                        if (Array.isArray(records) && records.length > 0) {
+                            dnsHtml += `<div class="dns-group"><div class="dns-type">${type}</div>`;
+                            records.forEach(r => {
+                                const val = typeof r === 'string' ? r : (r.address || r.exchange || JSON.stringify(r));
+                                dnsHtml += `<div style="font-size: 0.8rem; margin-bottom: 2px;">${val}</div>`;
+                            });
+                            dnsHtml += `</div>`;
+                        }
+                    }
+                    container.innerHTML = dnsHtml || 'No records found';
+                    break;
+                case 'block-lists':
+                    let blockHtml = '<ul class="data-list">';
+                    (data.blocklists || []).forEach(item => {
+                        blockHtml += `<li><span class="check-item"><div class="check-icon ${item.isBlocked ? 'check-fail' : 'check-pass'}"></div>${item.server}</span><span class="value">${item.isBlocked ? 'Blocked' : 'Not Blocked'}</span></li>`;
+                    });
+                    container.innerHTML = blockHtml + '</ul>';
+                    break;
+                case 'http-security':
+                case 'firewall':
+                case 'hsts':
+                    let checkHtml = '<ul class="data-list">';
+                    for (const [key, val] of Object.entries(data)) {
+                        const isPass = val === true || (typeof val === 'string' && val !== 'No' && !val.includes('false'));
+                        checkHtml += `<li><span class="check-item"><div class="check-icon ${isPass ? 'check-pass' : 'check-fail'}"></div>${key}</span><span class="value">${val}</span></li>`;
+                    }
+                    container.innerHTML = checkHtml + '</ul>';
+                    break;
+                case 'dns-server':
+                    let dsHtml = '';
+                    (data.dns || []).forEach((s, i) => {
+                        dsHtml += `<div class="dns-group"><div class="dns-type">DNS Server #${i + 1}</div>
+                            <div class="data-row"><span class="data-label">IP Address</span><span class="data-value">${s.address}</span></div>
+                            <div class="data-row"><span class="data-label">Hostname</span><span class="data-value">${s.hostname || 'N/A'}</span></div>
+                            <div class="data-row"><span class="data-label">DoH Support</span><span class="data-value">${s.dohDirectSupports ? 'Yes' : 'No'}</span></div>
+                        </div>`;
+                    });
+                    container.innerHTML = dsHtml;
+                    break;
+                default:
+                    let html = '';
+                    for (const [key, value] of Object.entries(data)) {
+                        if (key === 'statusCode' || key === 'body') continue;
+                        const displayVal = typeof value === 'object' ? `<pre style="font-size: 0.7rem; margin-top: 4px;">${JSON.stringify(value, null, 2)}</pre>` : value;
+                        html += `<div class="info-row"><span class="label">${key.replace(/_/g, ' ')}</span><span class="value">${displayVal}</span></div>`;
+                    }
+                    container.innerHTML = html || '<div style="color: var(--text-secondary)">No details available</div>';
+            }
+        }
+
+        async function startAnalysis() {
+            try {
+                log("Starting analysis...");
+                let url = urlInput.value.trim();
+                if (!url) { log("No URL input"); return; }
+                if (!url.startsWith('http')) url = 'https://' + url;
+
+                log(`Analysing: ${url}`);
+
+                const hostname = new URL(url).hostname;
+                currentUrlDisplay.innerText = hostname;
+
+                // 1. Switch View
+                landing.style.display = 'none';
+                results.style.display = 'block';
+                headerStats.style.display = 'block';
+                actionContainer.style.display = 'none'; // Hide next search initially
+
+                // 2. Reset Grid & Counters
+                cardsGrid.innerHTML = '';
+                completedJobs = 0; successfulJobs = 0; failedJobs = 0;
+                // Update stats UI
+                passCount.innerText = '0';
+                failCount.innerText = '0';
+                progressFill.style.width = '0%';
+                progressText.innerText = `Running 0 / ${endpoints.length} jobs`;
+
+                // 3. Create Cards first (Synchronously)
+                endpoints.forEach((endpoint, index) => {
+                    cardsGrid.appendChild(createCard(endpoint, index));
+                });
+                log(`Created ${endpoints.length} cards.`);
+
+                // 4. Start Fetching (Asynchronously)
+                setTimeout(() => {
+                    log("Dispatching fetch requests...");
+                    endpoints.forEach(endpoint => fetchEndpoint(endpoint, url));
+                }, 100);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        analyzeBtn.addEventListener('click', startAnalysis);
+        urlInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') startAnalysis(); });
+
+        // Theme Toggle Logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const themeText = document.getElementById('theme-text');
+
+        let isDarkMode = true;
+
+        themeToggleBtn.addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
+            themeIcon.textContent = isDarkMode ? '☀' : '☾';
+            themeText.textContent = isDarkMode ? 'Light' : 'Dark';
+
+            // Toggle CSS Variables for Theme
+            if (!isDarkMode) {
+                // LIGHT MODE
+                document.documentElement.style.setProperty('--bg-primary', '#f0f0f0');
+                document.documentElement.style.setProperty('--bg-secondary', '#ffffff');
+                document.documentElement.style.setProperty('--bg-card', 'rgba(255, 255, 255, 0.9)');
+                document.documentElement.style.setProperty('--text-primary', '#111111');
+                document.documentElement.style.setProperty('--text-secondary', '#333333');
+                document.documentElement.style.setProperty('--accent', '#006600'); // Darker green for readability
+                document.documentElement.style.setProperty('--border', '#cccccc');
+                document.documentElement.style.setProperty('--accent-glow', 'rgba(0, 100, 0, 0.1)');
+                // Remove the "CRT" overlay in light mode for better readability
+                document.body.classList.add('light-mode');
+            } else {
+                // DARK MODE (Default)
+                document.documentElement.style.setProperty('--bg-primary', '#050505');
+                document.documentElement.style.setProperty('--bg-secondary', '#0a0a0a');
+                document.documentElement.style.setProperty('--bg-card', 'rgba(10, 20, 10, 0.85)');
+                document.documentElement.style.setProperty('--text-primary', '#e0e0e0');
+                document.documentElement.style.setProperty('--text-secondary', '#008F11');
+                document.documentElement.style.setProperty('--accent', '#00ff41');
+                document.documentElement.style.setProperty('--border', '#003b00');
+                document.documentElement.style.setProperty('--accent-glow', 'rgba(0, 255, 65, 0.4)');
+                document.body.classList.remove('light-mode');
+            }
+        });
+
+        const nextSearchBtn = document.getElementById('nextSearchBtn');
+        const actionContainer = document.getElementById('actionContainer');
+
+        nextSearchBtn.addEventListener('click', () => {
+            // Reset UI
+            landing.style.display = 'block';
+            results.style.display = 'none';
+            headerStats.style.display = 'none';
+            cardsGrid.innerHTML = '';
+            actionContainer.style.display = 'none';
+            urlInput.value = '';
+            urlInput.focus();
+
+            // Reset Counters
+            completedJobs = 0; successfulJobs = 0; failedJobs = 0;
+            progressFill.style.width = '0%';
+            progressText.innerText = 'Running 0 / 0 jobs';
+        });
+
+        // Show next search button when all jobs are complete
+        function checkCompletion() {
+            if (completedJobs === endpoints.length) {
+                actionContainer.style.display = 'block';
+                actionContainer.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+
+</html>

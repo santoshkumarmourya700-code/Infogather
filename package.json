@@ -1,0 +1,43 @@
+{
+  "name": "web",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "bun --hot index.ts",
+    "start": "bun index.ts"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.4",
+    "@types/bun": "latest",
+    "@types/cheerio": "^1.0.0",
+    "@types/follow-redirects": "^1.14.4",
+    "@types/got": "^9.6.12",
+    "@types/node": "^25.0.3",
+    "@types/puppeteer": "^7.0.4",
+    "@types/url-parse": "^1.4.11",
+    "@types/uuid": "^11.0.0",
+    "@types/xml2js": "^0.4.14"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@types/psl": "^1.11.0",
+    "@types/unzipper": "^0.10.11",
+    "axios": "^1.13.2",
+    "cheerio": "^1.1.2",
+    "chrome-aws-lambda": "^10.1.0",
+    "csv-parser": "^3.2.0",
+    "follow-redirects": "^1.15.11",
+    "got": "^14.6.5",
+    "psl": "^1.15.0",
+    "puppeteer-core": "^24.34.0",
+    "traceroute": "^1.0.0",
+    "unzipper": "^0.12.3",
+    "url-parse": "^1.5.10",
+    "uuid": "^13.0.0",
+    "wappalyzer": "^7.0.3",
+    "xml2js": "^0.6.2"
+  }
+}
