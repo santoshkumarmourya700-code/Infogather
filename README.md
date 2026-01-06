@@ -20,18 +20,27 @@ for educational and ethical security testing purposes.
 
 ## 📁 Project Structure
 web/
+
 ├── api/              # Security & cryptography APIs
+
 ├── index.html        # Frontend UI
+
 ├── index.ts          # App entry point
+
 ├── style.css         # Styling
+
 ├── package.json
+
 └── tsconfig.json
 
 ## ⚙️ Installation
 
 git clone https://github.com/santoshkumarmourya700-code/Infogather.git
-cd your-repo-name/web
+
+cd Infogather/web
+
 bun install
+
 bun run index.ts
 
 ## ⚠️ Disclaimer
@@ -43,5 +52,6 @@ The author is not responsible for misuse.
 
 Sid  
 GitHub: https://github.com/santoshkumarmourya700-code/ 
+
 Linkdin: https://www.linkedin.com/in/santoshkumarmourya700-code/
 
